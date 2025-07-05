@@ -1,2 +1,2 @@
-# Vigor-Broad-Fractional-Shareas
+# Vigor-Broad-Fractional-Shares
 public property development
