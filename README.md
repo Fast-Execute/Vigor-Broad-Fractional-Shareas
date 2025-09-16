@@ -26,7 +26,7 @@ A dynamic solution crafted for the community—streamlining services and fosteri
 <sub>*Proud of: Seamless user experience and impactful local engagement*</sub>
 
 #### [Real Estate App](#)
-A modern, intuitive platform for property seekers and agents.  
+A modern, intuitive platform for building your asset portfolio
 <sub>*Proud of: Secure data handling and beautiful, responsive design*</sub>
 
 ---
