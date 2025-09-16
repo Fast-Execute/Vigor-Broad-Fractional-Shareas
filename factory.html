@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Factory Projects | Vigor Broad Invest</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: #f4f6f8;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .project {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      padding: 25px;
+      margin-bottom: 50px;
+    }
+    .project h3 {
+      color: #0d6efd;
+      font-weight: bold;
+    }
+    .carousel img {
+      height: 320px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .progress-bar {
+      background-color: #0d6efd;
+    }
+    .roi {
+      color: #1b5e20;
+      font-weight: 500;
+    }
+    .btn-invest {
+      background: #0d6efd;
+      color: white;
+      font-weight: 600;
+      border-radius: 30px;
+      padding: 8px 25px;
+      border: none;
+    }
+    .btn-invest:hover {
+      background: #084298;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="mb-4 text-center text-dark">Manufacturing & Factory Projects</h1>
+    <p class="lead text-center text-secondary mb-5">
+      Invest in scalable manufacturing hubs, local production industries, and export-ready South African factories.
+    </p>
+
+    <!-- 10 Factory Projects -->
+    <!-- Begin Project 1 to 10 -->
+    <!-- Each block should be manually duplicated for actual HTML deployment -->
+    
+    <!-- Projects rendered using JS logic or server-side rendering in practice -->
+    <script>
+      document.write(`
+        ${Array.from({ length: 10 }, (_, i) => {
+          const projectIndex = i + 1;
+          const investment = 1000000 + projectIndex * 50000;
+          const progress = 30 + i * 6;
+          const roi = 10 + i;
+          const titles = [
+            "Organic Fertilizer Production Plant",
+            "Textile Manufacturing Hub",
+            "Recycled Plastic Construction Blocks",
+            "Biodegradable Packaging Factory",
+            "Smart Electronics Assembly Line",
+            "Solar Panel Assembly Facility",
+            "Water Purification Equipment Plant",
+            "Green Brick Production",
+            "Medical Device Manufacturing",
+            "Smart Home Automation Parts Plant"
+          ];
+          const descriptions = [
+            "This plant uses biodegradable waste to manufacture eco-friendly fertilizer. Revenue is generated via direct sales to local farms and large-scale contracts with agro-industries. Investment return is ensured by growing demand for sustainable farming inputs in Africa and global markets.",
+            "This facility will supply quality, affordable clothing materials made in South Africa. High demand in retail and export industries ensures long-term income with strong government support for local textile growth.",
+            "Plastic waste is transformed into durable, heat-resistant construction blocks. These are cheaper and eco-friendly, perfect for large scale housing projects and government tenders.",
+            "Produces biodegradable packaging for agriculture, food, and retail. Government plastic-ban regulations make this an emerging billion-Rand market in Southern Africa.",
+            "Assembly line for smart wearable devices, mobile tools and IoT trackers. This factory is set to become a local electronics supplier across Africa’s growing tech ecosystem.",
+            "Solar panels made locally reduce import reliance and drive green energy rollouts. Contracts with renewable energy developers and SADC exporters make this a key market player.",
+            "Water purification units designed for clinics, schools and rural homes will be sold via bulk public procurement and NGOs, ensuring strong cash flow.",
+            "Green bricks manufactured using fly ash, construction waste and lime binders. Government subsidies available under the Green Housing Initiative.",
+            "Devices include blood pressure monitors, oximeters, and diagnostics for primary health centers. Local manufacturing reduces cost and improves access.",
+            "Produces motion sensors, smart switches and energy management components for domestic and commercial buildings in smart cities program."
+          ];
+          return `
+            <div class='project'>
+              <h3>${projectIndex}. ${titles[i]}</h3>
+              <div id="carousel${projectIndex}" class="carousel slide mb-3" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  ${Array.from({ length: 10 }, (_, j) => `
+                    <div class="carousel-item ${j === 0 ? 'active' : ''}">
+                      <img src="images/factory/project${projectIndex}/image${j + 1}.jpg" class="d-block w-100" alt="Project ${projectIndex} Image ${j + 1}" />
+                    </div>
+                  `).join('')}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel${projectIndex}" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel${projectIndex}" data-bs-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                </button>
+              </div>
+              <p><strong>Ultimate Fund Needed:</strong> R${investment.toLocaleString()}</p>
+              <div class="progress mb-3">
+                <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+              </div>
+              <p class="roi">Projected ROI: ${roi}% per annum</p>
+              <p>${descriptions[i]}</p>
+              <button class="btn btn-invest">Invest Now</button>
+            </div>
+          `;
+        }).join('')}
+      `);
+    </script>
+
+    <div class="text-center mt-5">
+      <p class="text-muted">*All factory projects meet local compliance and are primed for regional economic stimulation and job creation.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
