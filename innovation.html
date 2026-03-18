@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Innovation Projects | Vigor Broad Invest</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: #f4f6f8;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .project {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      padding: 25px;
+      margin-bottom: 50px;
+    }
+    .project h3 {
+      color: #6f42c1;
+      font-weight: bold;
+    }
+    .carousel img {
+      height: 320px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .progress-bar {
+      background-color: #6f42c1;
+    }
+    .roi {
+      color: #1b5e20;
+      font-weight: 500;
+    }
+    .btn-invest {
+      background: #6f42c1;
+      color: white;
+      font-weight: 600;
+      border-radius: 30px;
+      padding: 8px 25px;
+      border: none;
+    }
+    .btn-invest:hover {
+      background: #5a32a3;
+    }
+    .invested-amount {
+      color: #6f42c1;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="mb-4 text-center text-dark">Innovation & Technology Ventures</h1>
+    <p class="lead text-center text-secondary mb-5">
+      Invest in cutting-edge startups, tech hubs, and innovation centers driving South Africa's digital transformation.
+    </p>
+
+    <!-- 10 Innovation Projects -->
+    <script>
+      document.write(`
+        ${Array.from({ length: 10 }, (_, i) => {
+          const projectIndex = i + 1;
+          const totalFunding = 1500000 + projectIndex * 200000;
+          const invested = Math.floor(totalFunding * (0.50 + i * 0.03));
+          const progress = Math.round((invested / totalFunding) * 100);
+          const roi = 18 + i;
+          const titles = [
+            "AgriTech Innovation Hub",
+            "FinTech Payment Solutions Platform",
+            "AI-Powered Supply Chain Optimization",
+            "Green Energy Tech Startup",
+            "HealthTech Telemedicine Platform",
+            "EdTech Learning Management System",
+            "PropTech Real Estate Tech Platform",
+            "LogisticsTech Fleet Management System",
+            "FoodTech Urban Farming Solution",
+            "WasteManagement AI-Powered Solution"
+          ];
+          const descriptions = [
+            "AgriTech platform connecting smallholder farmers with markets, providing real-time pricing and weather data. Government agricultural support and farmer subscription model. Scaling across SADC region.",
+            "Mobile payment platform enabling seamless cashless transactions for merchants and consumers. Disruptive potential in unbanked population. Multiple revenue streams from transaction fees and partnerships.",
+            "AI solution optimizing supply chains, reducing waste, and improving efficiency for retailers and manufacturers. Significant cost savings drive adoption. B2B SaaS recurring revenue model.",
+            "Renewable energy technology combining solar, battery storage, and smart grid management. Government green energy incentives and corporate sustainability commitments. Growing market with declining competition.",
+            "Telemedicine platform connecting patients with doctors via mobile app. Reducing healthcare costs and improving access. Growing adoption post-pandemic with high scalability.",
+            "Learning management system for schools and corporates combining AI tutoring, adaptive learning, and progress tracking. EdTech sector experiencing massive growth. Recurring subscription revenue.",
+            "Property technology platform streamlining real estate transactions, valuation, and management. Tech-enabled efficiency in traditionally manual industry. Venture capital interest in proptech sector.",
+            "Fleet management system using IoT sensors and AI for vehicle tracking, maintenance prediction, and fuel optimization. Logistics industry transformation creating strong demand.",
+            "Vertical farming technology producing fresh produce in urban areas year-round with minimal water use. Growing interest in local food production and sustainability. Multiple revenue streams.",
+            "AI-powered waste sorting and recycling optimization platform. Environmental impact with revenue from recycled material sales and waste management partnerships. Circular economy growth driver."
+          ];
+          return `
+            <div class='project'>
+              <h3>${projectIndex}. ${titles[i]}</h3>
+              <div id="carousel${projectIndex}" class="carousel slide mb-3" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  ${Array.from({ length: 10 }, (_, j) => `
+                    <div class="carousel-item ${j === 0 ? 'active' : ''}">
+                      <img src="images/innovation/project${projectIndex}/image${j + 1}.jpg" class="d-block w-100" alt="Project ${projectIndex} Image ${j + 1}" />
+                    </div>
+                  `).join('')}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel${projectIndex}" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel${projectIndex}" data-bs-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                </button>
+              </div>
+              <p><strong>Total Funding Target:</strong> R${totalFunding.toLocaleString()}</p>
+              <div class="progress mb-1">
+                <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+              </div>
+              <p class="invested-amount">Amount Invested: R${invested.toLocaleString()}</p>
+              <p class="roi">Projected ROI: ${roi}% per annum</p>
+              <p>${descriptions[i]}</p>
+              <button class="btn btn-invest">Invest Now</button>
+            </div>
+          `;
+        }).join('')}
+      `);
+    </script>
+
+    <div class="text-center mt-5">
+      <p class="text-muted">*All innovation projects have experienced tech teams, proof of concept, and clear paths to profitability. Early investors benefit from significant growth potential.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
