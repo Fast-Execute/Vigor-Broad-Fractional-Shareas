@@ -49,7 +49,6 @@ CREATE TABLE funding_events (
                         CHECK (status IN ('pending', 'settled', 'failed', 'voided')),
     amount_minor        bigint NOT NULL CHECK (amount_minor > 0),
     shares              bigint NOT NULL CHECK (shares > 0),
-    currency            char(3) NOT NULL,
     provider_reference  text UNIQUE,
     settled_at          timestamptz,
     created_at          timestamptz NOT NULL DEFAULT now(),
