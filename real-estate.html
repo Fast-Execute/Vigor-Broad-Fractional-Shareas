@@ -15,6 +15,7 @@
     section{padding:28px 0 56px}.panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:clamp(22px,4vw,36px);margin:16px 0}
     h2{font-size:1.55rem;margin:0 0 12px;line-height:1.2}h3{font-size:1.05rem;margin:0 0 6px}.muted{color:var(--muted)}
     .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px}.fact{padding:16px 0;border-top:1px solid var(--line)}.label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:4px}.value{font-weight:700}
+    .funding{margin:22px 0 8px}.funding-head{display:flex;justify-content:space-between;gap:16px;font-weight:700}.funding-track{height:12px;margin:9px 0 6px;background:#e4e9e2;border-radius:99px;overflow:hidden}.funding-fill{display:block;width:0;height:100%;background:var(--green)}.funding-note{font-size:.9rem;color:var(--muted);margin:0}
     .callout{border-left:4px solid var(--green);background:#edf2e7;padding:18px 20px}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.item{padding:16px 0;border-top:1px solid var(--line)}
     footer{background:#17241f;color:#dce5df;padding:28px 0;font-size:.9rem}
     @media(max-width:640px){.facts,.checklist{grid-template-columns:1fr}.nav{align-items:flex-start}}
@@ -38,6 +39,13 @@
           <div class="fact"><span class="label">Occupancy, income and operating costs</span><span class="value">To be confirmed</span></div>
         </div>
       </div>
+        <div class="funding" aria-label="Funding progress for the first property opportunity">
+          <div class="funding-head"><span>Funding progress</span><span>Figures pending</span></div>
+          <div class="funding-track" role="progressbar" aria-label="Amount invested toward the funding target" aria-valuemin="0" aria-valuemax="100" aria-valuetext="Progress unavailable: invested amount and funding target have not been verified">
+            <span class="funding-fill"></span>
+          </div>
+          <p class="funding-note">Invested to date: not reported · Funding target: not reported. The bar will show the funded share of the target once both figures are verified.</p>
+        </div>
       <div class="panel"><h2>What fractional ownership means</h2><p>Investors may own shares or another defined interest in an entity that holds a property. The exact structure determines voting rights, income distributions, fees, transfer limits and how a sale is handled. Those rights must be set out in the offer documents; a percentage shown on a screen is not enough.</p></div>
       <div class="panel"><h2>Due diligence checklist</h2><div class="checklist">
         <div class="item"><h3>Verify the asset</h3><p class="muted">Title, valuation, condition, location, insurance and any debt secured against the property.</p></div>
