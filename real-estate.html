@@ -1,94 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Estate Projects</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            margin: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #fd7e14;
-        }
-        .project {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 10px 0;
-            background-color: #fff;
-        }
-        .progress-bar {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        .progress {
-            height: 20px;
-            background-color: #fd7e14;
-        }
-        .info {
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn how Vigor Broad plans to present fractional property opportunities and what information investors should review.">
+  <title>Property approach | Vigor Broad</title>
+  <style>
+    :root{--ink:#17241f;--muted:#5d6a63;--green:#174f3b;--lime:#d5f36a;--paper:#f5f6f1;--line:#dce2d9;--white:#fff}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 Arial,sans-serif}a{color:inherit}
+    .wrap{width:min(1000px,calc(100% - 40px));margin:auto}header{padding:20px 0}.nav{display:flex;justify-content:space-between;gap:20px}.brand{font-weight:800;text-decoration:none}.brand span{color:var(--green)}
+    .back{color:var(--green);font-weight:700;text-decoration:none}.hero{padding:52px 0 36px}.eyebrow{color:var(--green);font-size:.8rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+    h1{font-size:clamp(2.4rem,5vw,4rem);letter-spacing:-.04em;line-height:1.02;margin:14px 0}.lead{max-width:720px;color:var(--muted);font-size:1.15rem}
+    .status{display:inline-block;background:#e8eddc;color:#34552e;border-radius:30px;padding:6px 12px;font-weight:700;font-size:.85rem}
+    section{padding:28px 0 56px}.panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:clamp(22px,4vw,36px);margin:16px 0}
+    h2{font-size:1.55rem;margin:0 0 12px;line-height:1.2}h3{font-size:1.05rem;margin:0 0 6px}.muted{color:var(--muted)}
+    .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px}.fact{padding:16px 0;border-top:1px solid var(--line)}.label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:4px}.value{font-weight:700}
+    .funding{margin:22px 0 8px}.funding-head{display:flex;justify-content:space-between;gap:16px;font-weight:700}.funding-track{height:12px;margin:9px 0 6px;background:#e4e9e2;border-radius:99px;overflow:hidden}.funding-fill{display:block;width:0;height:100%;background:var(--green)}.funding-note{font-size:.9rem;color:var(--muted);margin:0}
+    .callout{border-left:4px solid var(--green);background:#edf2e7;padding:18px 20px}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.item{padding:16px 0;border-top:1px solid var(--line)}
+    footer{background:#17241f;color:#dce5df;padding:28px 0;font-size:.9rem}
+    @media(max-width:640px){.facts,.checklist{grid-template-columns:1fr}.nav{align-items:flex-start}}
+  </style>
 </head>
 <body>
-    <h1>Real Estate and Property Projects</h1>
-    <div class="project">
-        <h2>Project 1</h2>
-        <div class="progress-bar"><div class="progress" style="width: 60%;"></div></div>
-        <div class="info">Amount Invested: R600,000 | ROI: 15% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 2</h2>
-        <div class="progress-bar"><div class="progress" style="width: 75%;"></div></div>
-        <div class="info">Amount Invested: R750,000 | ROI: 18% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 3</h2>
-        <div class="progress-bar"><div class="progress" style="width: 50%;"></div></div>
-        <div class="info">Amount Invested: R400,000 | ROI: 12% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 4</h2>
-        <div class="progress-bar"><div class="progress" style="width: 90%;"></div></div>
-        <div class="info">Amount Invested: R900,000 | ROI: 20% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 5</h2>
-        <div class="progress-bar"><div class="progress" style="width: 80%;"></div></div>
-        <div class="info">Amount Invested: R800,000 | ROI: 16% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 6</h2>
-        <div class="progress-bar"><div class="progress" style="width: 70%;"></div></div>
-        <div class="info">Amount Invested: R700,000 | ROI: 14% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 7</h2>
-        <div class="progress-bar"><div class="progress" style="width: 85%;"></div></div>
-        <div class="info">Amount Invested: R850,000 | ROI: 17% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 8</h2>
-        <div class="progress-bar"><div class="progress" style="width: 40%;"></div></div>
-        <div class="info">Amount Invested: R300,000 | ROI: 11% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 9</h2>
-        <div class="progress-bar"><div class="progress" style="width: 55%;"></div></div>
-        <div class="info">Amount Invested: R550,000 | ROI: 13% per annum</div>
-    </div>
-    <div class="project">
-        <h2>Project 10</h2>
-        <div class="progress-bar"><div class="progress" style="width: 95%;"></div></div>
-        <div class="info">Amount Invested: R950,000 | ROI: 19% per annum</div>
-    </div>
+<header><div class="wrap nav"><a class="brand" href="index.html">VIGOR <span>BROAD</span></a><a class="back" href="index.html">← Home</a></div></header>
+<main>
+  <div class="wrap">
+    <div class="hero"><div class="eyebrow">Fractional property</div><h1>Start with the facts.</h1><span class="status">Offer in preparation</span><p class="lead">A property listing should make it easy to understand the asset and the rights attached to each share. We’re building that standard before opening an offer.</p></div>
+    <section>
+      <div class="panel"><h2>First property opportunity</h2><p class="muted">No property has been verified for investment on this page yet. The fields below show the information an investor should be able to review before deciding.</p>
+        <div class="facts">
+          <div class="fact"><span class="label">Property address and type</span><span class="value">To be confirmed</span></div>
+          <div class="fact"><span class="label">Ownership entity and legal documents</span><span class="value">To be confirmed</span></div>
+          <div class="fact"><span class="label">Independent valuation and valuation date</span><span class="value">To be confirmed</span></div>
+          <div class="fact"><span class="label">Share price and minimum investment</span><span class="value">To be confirmed</span></div>
+          <div class="fact"><span class="label">Total shares and offering target</span><span class="value">To be confirmed</span></div>
+          <div class="fact"><span class="label">Fees, distributions and payment schedule</span><span class="value">To be confirmed</span></div>
+          <div class="fact"><span class="label">Holding period and resale / exit terms</span><span class="value">To be confirmed</span></div>
+          <div class="fact"><span class="label">Occupancy, income and operating costs</span><span class="value">To be confirmed</span></div>
+        </div>
+      </div>
+        <div class="funding" aria-label="Funding progress for the first property opportunity">
+          <div class="funding-head"><span>Funding progress</span><span>Figures pending</span></div>
+          <div class="funding-track" role="progressbar" aria-label="Amount invested toward the funding target" aria-valuemin="0" aria-valuemax="100" aria-valuetext="Progress unavailable: invested amount and funding target have not been verified">
+            <span class="funding-fill"></span>
+          </div>
+          <p class="funding-note">Invested to date: not reported · Funding target: not reported. The bar will show the funded share of the target once both figures are verified.</p>
+        </div>
+      <div class="panel"><h2>What fractional ownership means</h2><p>Investors may own shares or another defined interest in an entity that holds a property. The exact structure determines voting rights, income distributions, fees, transfer limits and how a sale is handled. Those rights must be set out in the offer documents; a percentage shown on a screen is not enough.</p></div>
+      <div class="panel"><h2>Due diligence checklist</h2><div class="checklist">
+        <div class="item"><h3>Verify the asset</h3><p class="muted">Title, valuation, condition, location, insurance and any debt secured against the property.</p></div>
+        <div class="item"><h3>Understand the numbers</h3><p class="muted">Rental assumptions, vacancy, maintenance, taxes, management fees and sensitivity to lower income.</p></div>
+        <div class="item"><h3>Read the rights</h3><p class="muted">Entity documents, voting, distributions, reporting, transfers, complaints and conflict handling.</p></div>
+        <div class="item"><h3>Plan for risk and exit</h3><p class="muted">Property values and income can fall. Shares may be hard to sell, and invested capital can be lost.</p></div>
+      </div></div>
+      <div class="callout"><strong>No investment is currently available.</strong> This page is informational and does not invite or accept investment. Any future offer needs complete documentation, an operational investment process and appropriate professional review before launch.</div>
+    </section>
+  </div>
+</main>
+<footer><div class="wrap">© 2026 Vigor Broad · All investment involves risk. Returns, if any, are not guaranteed.</div></footer>
 </body>
 </html>
