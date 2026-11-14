@@ -13,9 +13,22 @@ The Admin API requires a server-only secret/service-role key. Never put that key
 Run a short-lived server-side script using the pinned Supabase JavaScript client version already used by this project. Supply the project URL, secret key, and the Auth user ID through environment variables. Fetch the user with `auth.admin.getUserById(userId)`, preserve the existing app metadata, then call:
 
 ```js
-await supabase.auth.admin.updateUserById(userId, {
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SECRET_KEY
+);
+const userId = process.env.VIGOR_ADMIN_USER_ID;
+
+const { data: { user }, error: lookupError } =
+  await supabase.auth.admin.getUserById(userId);
+if (lookupError || !user) throw lookupError ?? new Error("User not found");
+
+const { error: updateError } = await supabase.auth.admin.updateUserById(userId, {
   app_metadata: { ...user.app_metadata, role: "admin" }
 });
+if (updateError) throw updateError;
 ```
 
 Use the trusted Admin API only. Do not assign the role through `user_metadata`, because users can change that field themselves.
