@@ -1,10 +1,10 @@
 # Vigor Broad Fractional Shares — Build Progress
 
-**Overall progress: 21%**  
+**Overall progress: 22%**  
 This is an estimate of the full product scope. **100% means every release gate below is implemented, verified, and ready for production.**
 
 ```
-[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 21%
+[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 22%
 ```
 
 ## Completed
@@ -14,7 +14,8 @@ This is an estimate of the full product scope. **100% means every release gate b
 - [x] Supabase VigorBroad project with sector and development tables, row-level security, and seven sector records.
 - [x] Ten agriculture concepts saved as drafts; drafts are not exposed to public catalogue queries.
 - [x] Public category pages load only developments whose status is `published`; empty states appear when no reviewed records are public.
-- [x] Seven-tap V logo route to an authenticated catalogue admin page.
+- [x] Public development search and alphabetical/newest sorting.
+- [x] Seven-tap V logo route to an authenticated catalogue admin page with search, sector/status filters, edit-in-place, and publication readiness checks.
 - [x] Admin-only write policies use the protected Supabase `app_metadata.role = admin` claim.
 - [x] Jekyll CI workflow and profile README.
 
