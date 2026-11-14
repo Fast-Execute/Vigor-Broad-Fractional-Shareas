@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Illustrative agriculture and food-system development concepts for Vigor Broad.">
+<title>Agriculture Projects | Vigor Broad</title>
+<style>
+:root{--ink:#172a2a;--muted:#607472;--paper:#f4f6f1;--line:#dce5dd;--accent:#176b5b;--accent2:#d5ebd2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.site-shell{max-width:1160px;margin:auto;padding:24px clamp(18px,4vw,48px) 80px}
+.site-top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0 28px}
+.brand{font-weight:800;letter-spacing:-.04em;font-size:1.15rem;color:var(--ink);text-decoration:none}.brand span{color:var(--accent)}
+.back-link{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:999px;text-decoration:none}
+.page-intro{position:relative;overflow:hidden;padding:clamp(28px,6vw,64px);border-radius:28px;background:linear-gradient(120deg,#123d36,#176b5b 63%,#2c8270);color:#fff;margin-bottom:24px}
+.page-intro:after{content:"";position:absolute;width:280px;height:280px;border:1px solid #ffffff30;border-radius:50%;right:-60px;top:-100px;box-shadow:0 0 0 35px #ffffff0d,0 0 0 70px #ffffff0a}
+.eyebrow{font-size:.75rem;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:#c8e6cb}
+h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.04;letter-spacing:-.055em;margin:12px 0;max-width:750px}
+.page-intro p{max-width:680px;margin:0;color:#e0eee7;font-size:1.05rem;line-height:1.7}
+.disclosure{border:1px solid #d8e6dc;background:#edf4ed;border-radius:14px;padding:14px 17px;margin:0 0 26px;color:#435c53;font-size:.88rem;line-height:1.55}
+.projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.project{margin:0;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 4px 18px #183a2a0a;transition:transform .2s ease,box-shadow .2s ease}
+.project:hover{transform:translateY(-3px);box-shadow:0 14px 32px #183a2a14}
+.project-art{height:190px;overflow:hidden;background:#dcebdc}.project-art svg{display:block;width:100%;height:100%}
+.project-body{padding:22px}
+.project h2{font-size:1.22rem;line-height:1.25;letter-spacing:-.025em;margin:0 0 12px}
+.project p{color:var(--muted);line-height:1.65;margin:0}
+.project-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tag{border-radius:999px;padding:6px 10px;background:#edf4ed;color:#35624f;font-size:.76rem;font-weight:650}
+footer{border-top:1px solid var(--line);margin:48px 0 0;padding:22px 0;color:var(--muted);font-size:.84rem}
+@media(max-width:760px){.projects{grid-template-columns:1fr}.project-art{height:170px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="site-shell">
+<header class="site-top"><a class="brand" href="index.html">VIGOR <span>BROAD</span></a><a class="back-link" href="index.html">← All opportunities</a></header>
+<section class="page-intro"><div class="eyebrow">Investment developments · South Africa</div><h1>Agriculture & food systems</h1><p>Illustrative concepts across resilient farming, local processing and the infrastructure that helps food move from farm to market.</p></section>
+<p class="disclosure">These are illustrative development concepts, not verified projects or investment offers. No funding, returns, locations or operating partners have been confirmed. Verify all details, risks and regulatory status independently.</p>
+<main id="projects" class="projects" aria-live="polite"></main>
+<footer>© 2026 Vigor Broad · Illustrative project catalogue</footer>
+</div>
+<script>
+const projects=[
+{name:"Smallholder irrigation cooperative",focus:"Water resilience",summary:"Shared drip-irrigation infrastructure designed to help small farms use water more efficiently through dry seasons."},
+{name:"Regenerative grain farming",focus:"Soil health",summary:"A concept for crop rotation, cover crops and reduced tillage that aims to restore soil structure while maintaining local grain supply."},
+{name:"Fresh-produce cold-chain hub",focus:"Storage & logistics",summary:"Pre-cooling, packing and refrigerated aggregation intended to reduce post-harvest losses and connect growers to regional buyers."},
+{name:"Solar-powered farm microgrid",focus:"Renewable energy",summary:"A farm-scale energy concept pairing solar generation with storage for irrigation pumps, packhouses and essential equipment."},
+{name:"Citrus orchard renewal",focus:"Perennial crops",summary:"Replanting and water-efficient management for a mixed citrus orchard, with a focus on local packing and market access."},
+{name:"Climate-smart greenhouse cluster",focus:"Controlled growing",summary:"Modular protected growing space for vegetables and seedlings, with efficient irrigation and shared technical support."},
+{name:"Community grain storage network",focus:"Food security",summary:"Small silos and moisture-controlled storage that could help farming groups preserve harvest quality and time sales."},
+{name:"Farm equipment-sharing service",focus:"Mechanisation",summary:"A cooperative model for booking tractors and implements, helping smaller producers access machinery without owning every tool."},
+{name:"Local fruit-processing workshop",focus:"Value addition",summary:"A small-scale facility concept for sorting, drying or pulping surplus fruit to support local processing and reduce waste."},
+{name:"Sustainable aquaculture pilot",focus:"Diversified production",summary:"A monitored freshwater fish-farming concept designed around responsible water use, local feed sourcing and nearby demand."}
+];
+const colors=[["#dcebdc","#315f42","#9fc58b"],["#e7e6cf","#4d613e","#b7c77c"],["#dcebe7","#315d58","#9bc4ac"],["#e6ead3","#3f6748","#cfbb65"],["#f0e6d7","#526943","#d99952"],["#d9ebe1","#39745a","#9ac9ab"],["#eee6d1","#715b3d","#c9a35b"],["#dfe8d6","#526446","#b6c67d"],["#f0e4d5","#775340","#d6965c"],["#dce9e8","#31665f","#8fc3bc"]];
+const scenes=[
+'<path d="M60 155h280M82 155V93l118-54 118 54v62" fill="none" stroke="{f}" stroke-width="9"/><path d="M112 143v-27m44 27v-43m44 43V96m44 47v-43m44 43v-27" stroke="{h}" stroke-width="8" stroke-linecap="round"/>',
+'<path d="M70 151q65-50 130 0t130 0" fill="none" stroke="{f}" stroke-width="9"/><path d="M95 119v28m55-28v28m55-28v28m55-28v28m45-28v28M75 111h250" stroke="{h}" stroke-width="7" stroke-linecap="round"/>',
+'<path d="M102 152V83h196v69z" fill="{f}"/><path d="M125 103h35v31h-35zm57 0h35v31h-35zm57 0h35v31h-35z" fill="{h}"/><path d="M86 152h228" stroke="{f}" stroke-width="9"/>',
+'<circle cx="290" cy="50" r="24" fill="{h}"/><path d="M72 149l40-45 46 45 49-66 51 66" fill="none" stroke="{f}" stroke-width="8"/><path d="M94 145l15-24 46 12 17-27 43 9 16-25 41 12" fill="none" stroke="{h}" stroke-width="8"/>',
+'<path d="M200 153V78m0 23q-59 0-69-44 49-9 69 44m0 8q57 0 68-45-48-8-68 45" fill="none" stroke="{f}" stroke-width="9" stroke-linecap="round"/><circle cx="200" cy="61" r="9" fill="{h}"/>',
+'<path d="M82 151V84q118-80 236 0v67M112 151V91q88-58 176 0v60" fill="none" stroke="{f}" stroke-width="8"/><path d="M150 149v-28m50 28V102m50 47v-28" stroke="{h}" stroke-width="9" stroke-linecap="round"/>',
+'<path d="M135 150V87q0-27 31-27t31 27v63m18 0V75q0-28 31-28t31 28v75" fill="none" stroke="{f}" stroke-width="10"/><path d="M123 151h154" stroke="{h}" stroke-width="9"/><path d="M146 106h39m48-8h37" stroke="{h}" stroke-width="7"/>',
+'<circle cx="171" cy="104" r="37" fill="none" stroke="{h}" stroke-width="10"/><path d="M208 104h68l27 27h-24m-88-27 28-34h47l23 34M109 145h184" fill="none" stroke="{f}" stroke-width="10" stroke-linecap="round"/><circle cx="148" cy="145" r="14" fill="{f}"/><circle cx="265" cy="145" r="14" fill="{f}"/>',
+'<path d="M106 151V91l43 23V81l44 29V70l85 43v38z" fill="{f}"/><path d="M128 130h22v21h-22zm48 0h22v21h-22zm48 0h22v21h-22z" fill="{h}"/>',
+'<path d="M76 133q124-57 248 0v22H76z" fill="{h}" opacity=".65"/><path d="M122 117q18-25 36 0-18 24-36 0m74-14q18-25 36 0-18 24-36 0m38 32q18-25 36 0-18 24-36 0" fill="none" stroke="{f}" stroke-width="7"/><path d="M82 160h236" stroke="{f}" stroke-width="8" stroke-linecap="round"/>'
+];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const svg=(i,name)=>{const [bg,f,h]=colors[i];const scene=scenes[i].replaceAll("{f}",f).replaceAll("{h}",h);const shift=(i%3)*12;return '<svg viewBox="0 0 400 190" role="img" aria-label="'+esc(name)+' illustration" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="190" fill="'+bg+'"/><circle cx="'+(310-shift)+'" cy="42" r="70" fill="'+h+'" opacity=".3"/><path d="M0 166q97-23 193-8t207 0v32H0z" fill="'+h+'" opacity=".45"/>'+scene+'</svg>'};
+document.querySelector("#projects").innerHTML=projects.map((p,i)=>'<article class="project"><div class="project-art">'+svg(i,p.name)+'</div><div class="project-body"><h2>'+esc(p.name)+'</h2><p>'+esc(p.summary)+'</p><div class="project-meta"><span class="tag">'+esc(p.focus)+'</span><span class="tag">Illustrative concept</span></div></div></article>').join("");
+</script>
+</body>
+</html>
