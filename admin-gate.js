@@ -1,0 +1,1 @@
+(()=>{let taps=0,lastTap=0;document.addEventListener("click",event=>{const v=event.target.closest(".brand-v-trigger");const keyboardLogo=event.detail===0&&event.target.closest(".brand");if(!v&&!keyboardLogo)return;event.preventDefault();const now=Date.now();if(now-lastTap>5000)taps=0;lastTap=now;taps+=1;if(taps===7){taps=0;window.location.assign("admin.html");}});})();
