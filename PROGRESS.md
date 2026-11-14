@@ -1,14 +1,15 @@
 # Vigor Broad Fractional Shares — Build Progress
 
-**Overall progress: 10%**
+**Overall progress: 15%**
 
 ```
-[████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 10%
+[██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 15%
 ```
 
 
 ## Completed
 - [x] Static marketing site: home page and six project pages (bootcamp, education, factory, healthcare, innovation, real estate)
+- [x] Refreshed responsive catalogue design and generated a distinct SVG illustration for every listed development
 - [x] Jekyll CI workflow
 - [x] Profile README
 
@@ -21,4 +22,4 @@
 - [ ] Database and secure data handling
 - [ ] Testing, security review and deployment
 
-_Estimate as of 2026-11-14: the repo currently holds a static website with no accounts, trading or portfolio features. Update this file as milestones are completed and verified._
+_Estimate as of 2026-11-14: the repo currently holds a static website with no accounts, trading or portfolio features. The catalogue figures remain illustrative and unverified._
