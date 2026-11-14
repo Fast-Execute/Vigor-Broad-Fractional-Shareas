@@ -30,6 +30,12 @@ button{border:0;border-radius:10px;padding:11px 15px;background:var(--accent);co
 button.secondary{background:#e8efea;color:var(--ink)}
 button.danger{background:#8d3e36}
 button:disabled{opacity:.55;cursor:wait}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.metric{background:white;border:1px solid var(--line);border-radius:14px;padding:15px}
+.metric strong{display:block;font-size:1.5rem;letter-spacing:-.04em}.metric span{color:var(--muted);font-size:.82rem}
+.filters{display:grid;grid-template-columns:minmax(160px,1fr) minmax(150px,220px) minmax(140px,190px);gap:10px;width:min(720px,100%)}
+.form-hint{color:var(--muted);font-size:.86rem;line-height:1.55}
+@media(max-width:680px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:1fr}}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:16px 0}
 .toolbar select{max-width:220px}
 table{width:100%;border-collapse:collapse}
@@ -59,8 +65,10 @@ footer{border-top:1px solid var(--line);padding:22px 0;margin-top:40px;color:var
 </section>
 <section id="admin-panel" hidden>
 <div class="toolbar"><div><h2>Manage developments</h2><span id="signed-in" class="muted"></span></div><button class="secondary" id="sign-out" type="button">Sign out</button></div>
+<div class="metrics"><div class="metric"><strong id="count-total">0</strong><span>Total records</span></div><div class="metric"><strong id="count-draft">0</strong><span>Drafts</span></div><div class="metric"><strong id="count-review">0</strong><span>In review</span></div><div class="metric"><strong id="count-published">0</strong><span>Published</span></div></div>
 <section class="card">
-<h3>Add a development</h3>
+<h3 id="form-title">Add a development</h3>
+<p class="form-hint">Only publish projects after their details, risk notes, funding figures, and approvals have been verified.</p>
 <form id="create-form">
 <label>Sector<select id="sector" required></select></label>
 <label>Slug<input id="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="smallholder-irrigation"></label>
@@ -68,12 +76,14 @@ footer{border-top:1px solid var(--line);padding:22px 0;margin-top:40px;color:var
 <label class="full">Summary<textarea id="summary" required maxlength="600"></textarea></label>
 <label>Province, if confirmed<input id="province" maxlength="80"></label>
 <label>Status<select id="new-status"></select></label>
+<label>Funding target (ZAR)<input id="target-amount" type="number" min="0" step="0.01"></label>
+<label>Amount raised (ZAR)<input id="amount-raised" type="number" min="0" step="0.01"></label>
 <label class="full">Risk summary<textarea id="risk" maxlength="1200" placeholder="Add verified material risks before publishing."></textarea></label>
-<div class="full"><button id="create-button" type="submit">Save development</button><p id="create-message" role="status"></p></div>
+<div class="full"><button id="create-button" type="submit">Save development</button> <button class="secondary" id="cancel-edit" type="button" hidden>Cancel edit</button><p id="create-message" role="status"></p></div>
 </form>
 </section>
 <section class="card">
-<div class="toolbar"><h3>Development records</h3><select id="filter-sector" aria-label="Filter by sector"></select></div>
+<div class="toolbar"><h3>Development records</h3><div class="filters"><input id="search-records" type="search" placeholder="Search name, slug, summary" aria-label="Search development records"><select id="filter-sector" aria-label="Filter by sector"></select><select id="filter-status" aria-label="Filter by status"></select></div></div>
 <div class="table-wrap"><table><thead><tr><th>Development</th><th>Sector</th><th>Status</th><th>Location</th><th>Funding</th></tr></thead><tbody id="rows"></tbody></table></div>
 <p id="list-message" role="status"></p>
 </section>
@@ -83,54 +93,95 @@ footer{border-top:1px solid var(--line);padding:22px 0;margin-top:40px;color:var
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.105.0";
 const supabase=createClient("https://tyosxsrkmrgwmefscygc.supabase.co","sb_publishable_f57W8vfsl_9y3lREXuE3TQ_iGbanR4-");
-const loginPanel=document.querySelector("#login-panel"),adminPanel=document.querySelector("#admin-panel");
-const msg=document.querySelector("#message"),createMsg=document.querySelector("#create-message"),rows=document.querySelector("#rows");
+const $=selector=>document.querySelector(selector);
+const loginPanel=$("#login-panel"),adminPanel=$("#admin-panel"),message=$("#message"),createMessage=$("#create-message"),rows=$("#rows");
 const statuses=["draft","review","published","paused","closed","archived"];
-let sectors=[],developments=[];
-const say=(node,text,isError=false)=>{node.textContent=text;node.style.color=isError?"var(--danger)":"";};
-const statusOptions=(select,value)=>{select.replaceChildren(...statuses.map(s=>{const o=document.createElement("option");o.value=s;o.textContent=s[0].toUpperCase()+s.slice(1);o.selected=s===value;return o}))};
+let sectors=[],developments=[],editingId=null;
+const say=(node,text,isError=false)=>{node.textContent=text;node.style.color=isError?"var(--danger)":""};
+const statusOptions=(select,value)=>select.replaceChildren(...statuses.map(s=>{const o=new Option(s[0].toUpperCase()+s.slice(1),s);o.selected=s===value;return o}));
+const money=value=>new Intl.NumberFormat("en-ZA",{style:"currency",currency:"ZAR",maximumFractionDigits:0}).format(Number(value));
+const publicationIssues=record=>{
+ const issues=[];
+ if(!record.province)issues.push("confirmed province");
+ if(!record.risk_summary)issues.push("risk summary");
+ if(record.target_amount===null||!Number.isFinite(Number(record.target_amount))||Number(record.target_amount)<=0)issues.push("funding target");
+ if(record.amount_raised===null||!Number.isFinite(Number(record.amount_raised))||Number(record.amount_raised)<0)issues.push("amount raised to date");
+ return issues;
+};
 async function checkAdmin(){
  const {data,error}=await supabase.auth.getUser();
  if(error||!data.user)return false;
- if(data.user.app_metadata?.role!=="admin"){await supabase.auth.signOut();say(msg,"This account is signed in but is not authorized as a Vigor administrator.",true);return false}
- document.querySelector("#signed-in").textContent="Signed in as "+(data.user.email||"administrator");
+ if(data.user.app_metadata?.role!=="admin"){await supabase.auth.signOut();say(message,"This account is signed in but is not authorized as a Vigor administrator.",true);return false}
+ $("#signed-in").textContent="Signed in as "+(data.user.email||"administrator");
  loginPanel.hidden=true;adminPanel.hidden=false;return true;
 }
 async function load(){
- const [s,d]=await Promise.all([
+ const [sectorResult,developmentResult]=await Promise.all([
   supabase.from("investment_sectors").select("id,slug,name").order("display_order"),
   supabase.from("investment_developments").select("id,slug,name,summary,sector_id,status,province,currency,target_amount,amount_raised,risk_summary").order("created_at",{ascending:false})
  ]);
- if(s.error||d.error){say(document.querySelector("#list-message"),s.error?.message||d.error?.message,true);return}
- sectors=s.data||[];developments=d.data||[];
- const sectorSelect=document.querySelector("#sector"),filter=document.querySelector("#filter-sector");
- sectorSelect.replaceChildren(...sectors.map(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=x.name;return o}));
- filter.replaceChildren(new Option("All sectors",""),...sectors.map(x=>new Option(x.name,x.id)));
- statusOptions(document.querySelector("#new-status"),"draft");render();
+ if(sectorResult.error||developmentResult.error){say($("#list-message"),"Could not load catalogue records. Check the connection and try again.",true);return}
+ sectors=sectorResult.data||[];developments=developmentResult.data||[];
+ $("#sector").replaceChildren(...sectors.map(s=>new Option(s.name,s.id)));
+ $("#filter-sector").replaceChildren(new Option("All sectors",""),...sectors.map(s=>new Option(s.name,s.id)));
+ $("#filter-status").replaceChildren(new Option("All statuses",""),...statuses.map(s=>new Option(s[0].toUpperCase()+s.slice(1),s)));
+ statusOptions($("#new-status"),"draft");render();
+}
+function resetForm(){
+ editingId=null;$("#create-form").reset();statusOptions($("#new-status"),"draft");
+ $("#form-title").textContent="Add a development";$("#create-button").textContent="Save development";$("#cancel-edit").hidden=true;
+}
+function beginEdit(record){
+ editingId=record.id;$("#sector").value=record.sector_id;$("#slug").value=record.slug;$("#name").value=record.name;$("#summary").value=record.summary;
+ $("#province").value=record.province||"";$("#risk").value=record.risk_summary||"";
+ $("#target-amount").value=record.target_amount??"";$("#amount-raised").value=record.amount_raised??"";
+ statusOptions($("#new-status"),record.status);$("#form-title").textContent="Edit development";$("#create-button").textContent="Save changes";$("#cancel-edit").hidden=false;
+ $("#create-form").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function render(){
- const selected=document.querySelector("#filter-sector").value;
+ const selectedSector=$("#filter-sector").value,status=$("#filter-status").value,query=$("#search-records").value.trim().toLowerCase();
+ $("#count-total").textContent=String(developments.length);
+ $("#count-draft").textContent=String(developments.filter(d=>d.status==="draft").length);
+ $("#count-review").textContent=String(developments.filter(d=>d.status==="review").length);
+ $("#count-published").textContent=String(developments.filter(d=>d.status==="published").length);
  rows.replaceChildren();
  const names=new Map(sectors.map(s=>[s.id,s.name]));
- const visible=developments.filter(d=>!selected||d.sector_id===selected);
- if(!visible.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=5;td.textContent="No development records match this filter.";tr.append(td);rows.append(tr);return}
+ const visible=developments.filter(d=>(!selectedSector||d.sector_id===selectedSector)&&(!status||d.status===status)&&(!query||[d.name,d.slug,d.summary].some(v=>String(v||"").toLowerCase().includes(query))));
+ if(!visible.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=5;td.textContent="No development records match these filters.";tr.append(td);rows.append(tr);return}
  for(const d of visible){
-  const tr=document.createElement("tr");
-  const title=document.createElement("td");title.textContent=d.name;const small=document.createElement("small");small.textContent=d.slug+" · "+d.summary;title.append(small);
+  const tr=document.createElement("tr"),title=document.createElement("td");title.textContent=d.name;
+  const details=document.createElement("small");details.textContent=d.slug+" · "+d.summary;title.append(details);
   const sector=document.createElement("td");sector.textContent=names.get(d.sector_id)||"Unknown";
-  const status=document.createElement("td"),select=document.createElement("select");select.className="status-select";statusOptions(select,d.status);
+  const statusCell=document.createElement("td"),select=document.createElement("select");select.className="status-select";statusOptions(select,d.status);
   const save=document.createElement("button");save.className="secondary";save.type="button";save.textContent="Save";
-  save.addEventListener("click",async()=>{if(select.value==="published"&&d.status!=="published"&&!confirm("Publishing makes this development visible to the public. Confirm its details and approvals are complete.")){select.value=d.status;return}save.disabled=true;const {error}=await supabase.from("investment_developments").update({status:select.value,updated_at:new Date().toISOString()}).eq("id",d.id);save.disabled=false;if(error){say(document.querySelector("#list-message"),error.message,true);return}d.status=select.value;say(document.querySelector("#list-message"),"Status saved.");render()});
-  status.append(select,document.createTextNode(" "),save);
-  const province=document.createElement("td");province.textContent=d.province||"—";
-  const funding=document.createElement("td");funding.textContent=d.target_amount==null?"Not set":new Intl.NumberFormat("en-ZA",{style:"currency",currency:d.currency||"ZAR"}).format(d.target_amount);
-  tr.append(title,sector,status,province,funding);rows.append(tr);
+  save.addEventListener("click",async()=>{
+   if(select.value==="published"&&d.status!=="published"){const issues=publicationIssues(d);if(issues.length){say($("#list-message"),"Edit this record first. Missing: "+issues.join(", ")+".",true);beginEdit(d);return}if(!confirm("Publishing makes this development visible to the public. Confirm the details and approvals are complete.")){select.value=d.status;return}}
+   save.disabled=true;const {error}=await supabase.from("investment_developments").update({status:select.value,updated_at:new Date().toISOString()}).eq("id",d.id);save.disabled=false;
+   if(error){say($("#list-message"),"Could not save status. Please try again.",true);return}
+   d.status=select.value;say($("#list-message"),"Status saved.");render();
+  });
+  const edit=document.createElement("button");edit.type="button";edit.className="secondary";edit.textContent="Edit details";edit.style.marginTop="8px";edit.addEventListener("click",()=>beginEdit(d));
+  statusCell.append(select,document.createTextNode(" "),save,document.createElement("br"),edit);
+  const location=document.createElement("td");location.textContent=d.province||"—";
+  const funding=document.createElement("td");funding.textContent=d.target_amount==null?"Not set":money(d.target_amount);
+  tr.append(title,sector,statusCell,location,funding);rows.append(tr);
  }
 }
-document.querySelector("#filter-sector").addEventListener("change",render);
-document.querySelector("#login-form").addEventListener("submit",async e=>{e.preventDefault();const button=document.querySelector("#login-button");button.disabled=true;say(msg,"Signing in…");const {error}=await supabase.auth.signInWithPassword({email:document.querySelector("#email").value,password:document.querySelector("#password").value});button.disabled=false;if(error){say(msg,error.message,true);return}if(await checkAdmin()){say(msg,"");await load()}});
-document.querySelector("#sign-out").addEventListener("click",async()=>{await supabase.auth.signOut();adminPanel.hidden=true;loginPanel.hidden=false;say(msg,"Signed out.")});
-document.querySelector("#create-form").addEventListener("submit",async e=>{e.preventDefault();const button=document.querySelector("#create-button"),status=document.querySelector("#new-status").value;if(status==="published"&&!confirm("This record will be visible to the public. Confirm its details and approvals are complete."))return;button.disabled=true;const payload={sector_id:document.querySelector("#sector").value,slug:document.querySelector("#slug").value.trim(),name:document.querySelector("#name").value.trim(),summary:document.querySelector("#summary").value.trim(),province:document.querySelector("#province").value.trim()||null,status,risk_summary:document.querySelector("#risk").value.trim()||null};const {error}=await supabase.from("investment_developments").insert(payload);button.disabled=false;if(error){say(createMsg,error.message,true);return}e.target.reset();statusOptions(document.querySelector("#new-status"),"draft");say(createMsg,"Development saved as "+status+".");await load()});
+$("#filter-sector").addEventListener("change",render);$("#filter-status").addEventListener("change",render);$("#search-records").addEventListener("input",render);
+$("#cancel-edit").addEventListener("click",resetForm);
+$("#login-form").addEventListener("submit",async e=>{e.preventDefault();const button=$("#login-button");button.disabled=true;say(message,"Signing in…");const {error}=await supabase.auth.signInWithPassword({email:$("#email").value,password:$("#password").value});button.disabled=false;if(error){say(message,"Sign-in failed. Check your credentials and try again.",true);return}if(await checkAdmin()){say(message,"");await load()}});
+$("#sign-out").addEventListener("click",async()=>{await supabase.auth.signOut();adminPanel.hidden=true;loginPanel.hidden=false;say(message,"Signed out.")});
+$("#create-form").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const button=$("#create-button"),status=$("#new-status").value;
+ const payload={sector_id:$("#sector").value,slug:$("#slug").value.trim(),name:$("#name").value.trim(),summary:$("#summary").value.trim(),province:$("#province").value.trim()||null,status,risk_summary:$("#risk").value.trim()||null,target_amount:$("#target-amount").value===""?null:Number($("#target-amount").value),amount_raised:$("#amount-raised").value===""?null:Number($("#amount-raised").value)};
+ if(status==="published"){const issues=publicationIssues(payload);if(issues.length){say(createMessage,"To publish, add: "+issues.join(", ")+".",true);return}if(!confirm("Publishing makes this development visible to the public. Confirm the details and approvals are complete."))return}
+ button.disabled=true;
+ const result=editingId?await supabase.from("investment_developments").update({...payload,updated_at:new Date().toISOString()}).eq("id",editingId):await supabase.from("investment_developments").insert(payload);
+ button.disabled=false;
+ if(result.error){say(createMessage,"Could not save the development. Check its details and try again.",true);return}
+ const savedStatus=status;resetForm();say(createMessage,"Development saved as "+savedStatus+".");await load();
+});
 const {data:{session}}=await supabase.auth.getSession();if(session&&await checkAdmin())await load();
 </script>
 </body>
