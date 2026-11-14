@@ -69,3 +69,22 @@ set name = excluded.name,
     description = excluded.description,
     display_order = excluded.display_order,
     is_active = excluded.is_active;
+
+-- Agriculture concept records remain drafts until reviewed; no amounts or returns are asserted.
+insert into public.investment_developments (sector_id, slug, name, summary, status)
+select s.id, v.slug, v.name, v.summary, 'draft'
+from public.investment_sectors s
+cross join (values
+ ('smallholder-irrigation-cooperative','Smallholder irrigation cooperative','Shared drip-irrigation infrastructure designed to help small farms use water more efficiently through dry seasons.'),
+ ('regenerative-grain-farming','Regenerative grain farming','A concept for crop rotation, cover crops and reduced tillage that aims to restore soil structure while maintaining local grain supply.'),
+ ('fresh-produce-cold-chain-hub','Fresh-produce cold-chain hub','Pre-cooling, packing and refrigerated aggregation intended to reduce post-harvest losses and connect growers to regional buyers.'),
+ ('solar-powered-farm-microgrid','Solar-powered farm microgrid','A farm-scale energy concept pairing solar generation with storage for irrigation pumps, packhouses and essential equipment.'),
+ ('citrus-orchard-renewal','Citrus orchard renewal','Replanting and water-efficient management for a mixed citrus orchard, with a focus on local packing and market access.'),
+ ('climate-smart-greenhouse-cluster','Climate-smart greenhouse cluster','Modular protected growing space for vegetables and seedlings, with efficient irrigation and shared technical support.'),
+ ('community-grain-storage-network','Community grain storage network','Small silos and moisture-controlled storage that could help farming groups preserve harvest quality and time sales.'),
+ ('farm-equipment-sharing-service','Farm equipment-sharing service','A cooperative model for booking tractors and implements, helping smaller producers access machinery without owning every tool.'),
+ ('local-fruit-processing-workshop','Local fruit-processing workshop','A small-scale facility concept for sorting, drying or pulping surplus fruit to support local processing and reduce waste.'),
+ ('sustainable-aquaculture-pilot','Sustainable aquaculture pilot','A monitored freshwater fish-farming concept designed around responsible water use, local feed sourcing and nearby demand.')
+) as v(slug, name, summary)
+where s.slug = 'agriculture'
+on conflict (slug) do nothing;
