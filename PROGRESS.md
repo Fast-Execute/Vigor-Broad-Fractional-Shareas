@@ -1,10 +1,10 @@
 # Vigor Broad Fractional Shares — Build Progress
 
-**Overall progress: 23%**  
+**Overall progress: 24%**  
 This is an estimate of the full product scope. **100% means every release gate below is implemented, verified, and ready for production.**
 
 ```
-[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 23%
+[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 24%
 ```
 
 ## Completed
@@ -17,6 +17,7 @@ This is an estimate of the full product scope. **100% means every release gate b
 - [x] Public development search and alphabetical/newest sorting.
 - [x] Seven-tap V logo route to an authenticated catalogue admin page with search, sector/status filters, edit-in-place, and publication readiness checks.
 - [x] Admin-only write policies use the protected Supabase `app_metadata.role = admin` claim.
+- [x] Admin setup guide documents safe server-side role assignment.
 - [x] Private audit trail records development inserts, updates, and deletions; admins can read it.
 - [x] Jekyll CI workflow and profile README.
 
