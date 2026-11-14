@@ -87,6 +87,11 @@ footer{border-top:1px solid var(--line);padding:22px 0;margin-top:40px;color:var
 <div class="table-wrap"><table><thead><tr><th>Development</th><th>Sector</th><th>Status</th><th>Location</th><th>Funding</th></tr></thead><tbody id="rows"></tbody></table></div>
 <p id="list-message" role="status"></p>
 </section>
+<section class="card">
+<h3>Recent development activity</h3>
+<p class="form-hint">Admin changes are recorded automatically. The log is visible to authorized administrators only.</p>
+<div class="table-wrap"><table><thead><tr><th>Time</th><th>Action</th><th>Development</th><th>Actor</th></tr></thead><tbody id="audit-rows"></tbody></table></div>
+</section>
 </section>
 <footer>Vigor Broad admin · Catalog records only. Investor accounts, orders and payment operations are not enabled.</footer>
 </div>
@@ -118,10 +123,12 @@ async function checkAdmin(){
 async function load(){
  const [sectorResult,developmentResult]=await Promise.all([
   supabase.from("investment_sectors").select("id,slug,name").order("display_order"),
-  supabase.from("investment_developments").select("id,slug,name,summary,sector_id,status,province,currency,target_amount,amount_raised,risk_summary").order("created_at",{ascending:false})
+  supabase.from("investment_developments").select("id,slug,name,summary,sector_id,status,province,currency,target_amount,amount_raised,risk_summary").order("created_at",{ascending:false}),
+  supabase.from("investment_development_audit").select("event_type,actor_id,old_record,new_record,created_at").order("created_at",{ascending:false}).limit(20)
  ]);
  if(sectorResult.error||developmentResult.error){say($("#list-message"),"Could not load catalogue records. Check the connection and try again.",true);return}
  sectors=sectorResult.data||[];developments=developmentResult.data||[];
+ renderAudit(auditResult.data||[]);
  $("#sector").replaceChildren(...sectors.map(s=>new Option(s.name,s.id)));
  $("#filter-sector").replaceChildren(new Option("All sectors",""),...sectors.map(s=>new Option(s.name,s.id)));
  $("#filter-status").replaceChildren(new Option("All statuses",""),...statuses.map(s=>new Option(s[0].toUpperCase()+s.slice(1),s)));
@@ -137,6 +144,18 @@ function beginEdit(record){
  $("#target-amount").value=record.target_amount??"";$("#amount-raised").value=record.amount_raised??"";
  statusOptions($("#new-status"),record.status);$("#form-title").textContent="Edit development";$("#create-button").textContent="Save changes";$("#cancel-edit").hidden=false;
  $("#create-form").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function renderAudit(entries){
+ const body=$("#audit-rows");body.replaceChildren();
+ if(!entries.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=4;td.textContent="No admin changes recorded yet.";tr.append(td);body.append(tr);return}
+ for(const entry of entries){
+  const tr=document.createElement("tr"),time=document.createElement("td"),action=document.createElement("td"),development=document.createElement("td"),actor=document.createElement("td");
+  time.textContent=new Date(entry.created_at).toLocaleString("en-ZA");
+  action.textContent=entry.event_type[0].toUpperCase()+entry.event_type.slice(1);
+  const record=entry.new_record||entry.old_record||{};development.textContent=record.name||entry.development_id;
+  actor.textContent=entry.actor_id||"System";
+  tr.append(time,action,development,actor);body.append(tr);
+ }
 }
 function render(){
  const selectedSector=$("#filter-sector").value,status=$("#filter-status").value,query=$("#search-records").value.trim().toLowerCase();
