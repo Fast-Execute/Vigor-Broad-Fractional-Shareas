@@ -87,7 +87,7 @@ const loginPanel=document.querySelector("#login-panel"),adminPanel=document.quer
 const msg=document.querySelector("#message"),createMsg=document.querySelector("#create-message"),rows=document.querySelector("#rows");
 const statuses=["draft","review","published","paused","closed","archived"];
 let sectors=[],developments=[];
-const say=(node,text,isError=false)=>{node.textContent=text;node.id=isError?"error":node===msg?"message":node===createMsg?"create-message":"list-message"};
+const say=(node,text,isError=false)=>{node.textContent=text;node.style.color=isError?"var(--danger)":"";};
 const statusOptions=(select,value)=>{select.replaceChildren(...statuses.map(s=>{const o=document.createElement("option");o.value=s;o.textContent=s[0].toUpperCase()+s.slice(1);o.selected=s===value;return o}))};
 async function checkAdmin(){
  const {data,error}=await supabase.auth.getUser();
