@@ -1,9 +1,9 @@
 # Vigor Broad Fractional Shares — Build Progress
 
-**Overall progress: 17%**
+**Overall progress: 19%**
 
 ```
-[███████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 17%
+[███████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 19%
 ```
 
 
@@ -11,6 +11,7 @@
 - [x] Static marketing site: home page and seven project pages (bootcamp, education, factory, healthcare, innovation, real estate, agriculture)
 - [x] Refreshed responsive catalogue design and generated a distinct SVG illustration for every listed development
 - [x] Supabase catalogue database foundation with row-level security; sector taxonomy seeded
+- [x] Seven-tap V logo shortcut to an authenticated development admin page
 - [x] Jekyll CI workflow
 - [x] Profile README
 
