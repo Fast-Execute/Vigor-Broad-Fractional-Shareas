@@ -106,3 +106,67 @@ create policy "Administrators manage investment developments"
   to authenticated
   using (((select auth.jwt()) -> 'app_metadata' ->> 'role') = 'admin')
   with check (((select auth.jwt()) -> 'app_metadata' ->> 'role') = 'admin');
+
+-- Private admin audit trail; the security-invoker view applies the table's RLS policy.
+create schema if not exists private;
+revoke all on schema private from public, anon, authenticated;
+grant usage on schema private to authenticated;
+
+create table private.investment_development_audit (
+  id bigint generated always as identity primary key,
+  development_id uuid not null,
+  event_type text not null check (event_type in ('insert', 'update', 'delete')),
+  actor_id uuid references auth.users(id) on delete set null,
+  old_record jsonb,
+  new_record jsonb,
+  created_at timestamptz not null default now()
+);
+create index investment_development_audit_created_at_idx
+  on private.investment_development_audit (created_at desc);
+alter table private.investment_development_audit enable row level security;
+grant select on private.investment_development_audit to authenticated;
+create policy "Administrators can read development audit"
+  on private.investment_development_audit
+  for select to authenticated
+  using (((select auth.jwt()) -> 'app_metadata' ->> 'role') = 'admin');
+
+create or replace function private.log_investment_development_change()
+returns trigger language plpgsql security definer set search_path = ''
+as $$
+declare
+  claim_role text;
+  previous_value jsonb;
+  next_value jsonb;
+  changed_id uuid;
+  action_name text;
+begin
+  claim_role := coalesce(((select auth.jwt()) -> 'app_metadata' ->> 'role'), '');
+  if claim_role <> 'admin'
+     and coalesce(((select auth.jwt()) ->> 'role'), '') <> 'service_role'
+     and session_user not in ('postgres', 'supabase_admin') then
+    raise exception 'Authorized database role required to record development changes';
+  end if;
+  if tg_op = 'INSERT' then
+    previous_value := null; next_value := to_jsonb(new); changed_id := new.id; action_name := 'insert';
+  elsif tg_op = 'UPDATE' then
+    previous_value := to_jsonb(old); next_value := to_jsonb(new); changed_id := new.id; action_name := 'update';
+  else
+    previous_value := to_jsonb(old); next_value := null; changed_id := old.id; action_name := 'delete';
+  end if;
+  insert into private.investment_development_audit (development_id,event_type,actor_id,old_record,new_record)
+  values (changed_id,action_name,(select auth.uid()),previous_value,next_value);
+  if tg_op = 'DELETE' then return old; end if;
+  return new;
+end;
+$$;
+revoke all on function private.log_investment_development_change() from public, anon, authenticated;
+grant execute on function private.log_investment_development_change() to authenticated, service_role;
+drop trigger if exists investment_development_audit_trigger on public.investment_developments;
+create trigger investment_development_audit_trigger
+after insert or update or delete on public.investment_developments
+for each row execute function private.log_investment_development_change();
+
+create or replace view public.investment_development_audit with (security_invoker = true) as
+select id,development_id,event_type,actor_id,old_record,new_record,created_at
+from private.investment_development_audit;
+grant select on public.investment_development_audit to authenticated;
