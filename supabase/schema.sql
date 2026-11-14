@@ -1,5 +1,5 @@
 -- Vigor Broad Supabase catalog bootstrap
--- Apply only after a dedicated Vigor Supabase project has been provisioned.
+-- Applied to the dedicated VigorBroad Supabase project; source reference for the catalog schema.
 -- Investment orders, investor identity data, and payments are intentionally out of scope.
 
 create table public.investment_sectors (
@@ -52,8 +52,8 @@ create policy "Public can read published developments"
   to anon, authenticated
   using (status = 'published');
 
--- No client write policies or grants are created. Publish and funding updates
--- must come from a trusted server workflow after the project is reviewed.
+-- Public clients can read active sectors and published developments only.
+-- Authenticated writes require the protected app_metadata admin claim shown below.
 
 -- Seed the sector taxonomy; no development is published or presented as a verified offer.
 insert into public.investment_sectors (slug, name, description, display_order, is_active) values
