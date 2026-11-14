@@ -54,3 +54,18 @@ create policy "Public can read published developments"
 
 -- No client write policies or grants are created. Publish and funding updates
 -- must come from a trusted server workflow after the project is reviewed.
+
+-- Seed the sector taxonomy; no development is published or presented as a verified offer.
+insert into public.investment_sectors (slug, name, description, display_order, is_active) values
+('bootcamp', 'Bootcamp', 'Technology and career training concepts.', 1, true),
+('education', 'Education', 'Learning spaces and education access concepts.', 2, true),
+('healthcare', 'Healthcare', 'Community health and wellness concepts.', 3, true),
+('factory', 'Factory', 'Local manufacturing and production concepts.', 4, true),
+('real-estate', 'Real Estate', 'Housing and mixed-use development concepts.', 5, true),
+('innovation', 'Innovation', 'Technology and new venture concepts.', 6, true),
+('agriculture', 'Agriculture', 'Sustainable farming and food-system concepts.', 7, true)
+on conflict (slug) do update
+set name = excluded.name,
+    description = excluded.description,
+    display_order = excluded.display_order,
+    is_active = excluded.is_active;
