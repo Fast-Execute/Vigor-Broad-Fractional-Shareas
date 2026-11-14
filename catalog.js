@@ -49,7 +49,8 @@ if (!slug || !grid) {
     grid.before(bar);
     return { search, sort, count };
   };
-  const controls = isAgriculturePreview ? makeControls() : null;
+  let controls = isAgriculturePreview ? makeControls() : null;
+  let publishedRecords = [];
   const filterStaticPreview = () => {
     if (!controls) return;
     const cards = [...grid.querySelectorAll(".project")];
@@ -136,8 +137,8 @@ if (!slug || !grid) {
     if (controls) controls.count.textContent = ordered.length + (ordered.length === 1 ? " development" : " developments");
   };
   if (controls) {
-    controls.search.addEventListener("input", () => renderRecords(window.__vigorPublishedRecords || []));
-    controls.sort.addEventListener("change", () => renderRecords(window.__vigorPublishedRecords || []));
+    controls.search.addEventListener("input", () => renderRecords(publishedRecords || []));
+    controls.sort.addEventListener("change", () => renderRecords(publishedRecords || []));
   }
   (async () => {
     const { data: sector, error: sectorError } = await supabase.from("investment_sectors")
@@ -154,15 +155,15 @@ if (!slug || !grid) {
       return;
     }
     if (data?.length) {
-      window.__vigorPublishedRecords = data;
+      publishedRecords = data;
       if (!controls) {
         const bar = document.createElement("div");bar.className="catalog-controls";
         const search=document.createElement("input");search.type="search";search.placeholder="Search developments";search.setAttribute("aria-label","Search developments");
         const sort=document.createElement("select");sort.setAttribute("aria-label","Sort developments");sort.append(new Option("Newest first","newest"),new Option("Name A to Z","name"));
         const count=document.createElement("span");count.className="catalog-count";count.setAttribute("aria-live","polite");bar.append(search,sort,count);grid.before(bar);
         controls={search,sort,count};
-        search.addEventListener("input",()=>renderRecords(window.__vigorPublishedRecords||[]));
-        sort.addEventListener("change",()=>renderRecords(window.__vigorPublishedRecords||[]));
+        search.addEventListener("input",()=>renderRecords(publishedRecords||[]));
+        sort.addEventListener("change",()=>renderRecords(publishedRecords||[]));
       }
       renderRecords(data);
     } else if (!isAgriculturePreview) {
