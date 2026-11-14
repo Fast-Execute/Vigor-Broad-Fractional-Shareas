@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin | Vigor Broad</title>
+<style>
+:root{--ink:#172a2a;--muted:#607472;--paper:#f4f6f1;--line:#dce5dd;--accent:#176b5b;--danger:#9a3d31}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.shell{max-width:1100px;margin:auto;padding:24px clamp(18px,4vw,48px) 80px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:8px 0 28px}
+.brand{color:var(--ink);text-decoration:none;font-weight:800;letter-spacing:-.04em}
+.brand span{color:var(--accent)}
+.back{color:var(--ink);background:white;border:1px solid var(--line);padding:10px 15px;border-radius:999px;text-decoration:none}
+.hero{padding:32px clamp(24px,5vw,48px);background:linear-gradient(120deg,#123d36,#176b5b 70%,#2c8270);border-radius:24px;color:white;margin-bottom:24px}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.75rem;font-weight:750;color:#c8e6cb}
+h1{font-size:clamp(2rem,5vw,3rem);letter-spacing:-.05em;margin:10px 0}
+.hero p{color:#e0eee7;line-height:1.65;margin:0}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 4px 18px #183a2a0a}
+.notice{border:1px solid #ecd8a6;background:#fff7e3;color:#66542a;padding:14px 16px;border-radius:12px;line-height:1.55;font-size:.9rem}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+label{display:grid;gap:6px;font-size:.85rem;font-weight:650}
+input,select,textarea,button{font:inherit}
+input,select,textarea{width:100%;border:1px solid #cdd8d0;border-radius:10px;padding:11px 12px;background:white;color:var(--ink)}
+textarea{min-height:92px;resize:vertical}
+.full{grid-column:1/-1}
+button{border:0;border-radius:10px;padding:11px 15px;background:var(--accent);color:white;font-weight:700;cursor:pointer}
+button.secondary{background:#e8efea;color:var(--ink)}
+button.danger{background:#8d3e36}
+button:disabled{opacity:.55;cursor:wait}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:16px 0}
+.toolbar select{max-width:220px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px 9px;vertical-align:top}
+th{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+td small{display:block;color:var(--muted);line-height:1.5;margin-top:4px}
+.status-select{min-width:125px;padding:8px}
+.table-wrap{overflow:auto}
+#message{margin-top:12px;min-height:1.4em;color:var(--muted);font-size:.9rem}
+#error{color:var(--danger)}
+footer{border-top:1px solid var(--line);padding:22px 0;margin-top:40px;color:var(--muted);font-size:.84rem}
+@media(max-width:680px){form{grid-template-columns:1fr}.full{grid-column:auto}.toolbar{align-items:stretch;flex-direction:column}.toolbar select{max-width:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top"><a class="brand" href="index.html">VIGOR <span>BROAD</span></a><a class="back" href="index.html">← Return to catalogue</a></header>
+<section class="hero"><div class="eyebrow">Private administration</div><h1>Development catalogue</h1><p>Sign in with an account authorized by the project owner to review and manage development records.</p></section>
+<p class="notice">The seven-tap shortcut only reveals this page. Database access is protected separately by Supabase authentication and row-level policies. Admin access requires the signed-in account’s <code>app_metadata.role</code> to be set to <code>admin</code>. Do not place that role in user-editable metadata.</p>
+<section class="card" id="login-panel">
+<h2>Administrator sign-in</h2>
+<form id="login-form">
+<label>Email<input id="email" type="email" autocomplete="username" required></label>
+<label>Password<input id="password" type="password" autocomplete="current-password" required></label>
+<div class="full"><button id="login-button" type="submit">Sign in</button><p id="message" role="status"></p></div>
+</form>
+</section>
+<section id="admin-panel" hidden>
+<div class="toolbar"><div><h2>Manage developments</h2><span id="signed-in" class="muted"></span></div><button class="secondary" id="sign-out" type="button">Sign out</button></div>
+<section class="card">
+<h3>Add a development</h3>
+<form id="create-form">
+<label>Sector<select id="sector" required></select></label>
+<label>Slug<input id="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="smallholder-irrigation"></label>
+<label class="full">Name<input id="name" required maxlength="140"></label>
+<label class="full">Summary<textarea id="summary" required maxlength="600"></textarea></label>
+<label>Province, if confirmed<input id="province" maxlength="80"></label>
+<label>Status<select id="new-status"></select></label>
+<label class="full">Risk summary<textarea id="risk" maxlength="1200" placeholder="Add verified material risks before publishing."></textarea></label>
+<div class="full"><button id="create-button" type="submit">Save development</button><p id="create-message" role="status"></p></div>
+</form>
+</section>
+<section class="card">
+<div class="toolbar"><h3>Development records</h3><select id="filter-sector" aria-label="Filter by sector"></select></div>
+<div class="table-wrap"><table><thead><tr><th>Development</th><th>Sector</th><th>Status</th><th>Location</th><th>Funding</th></tr></thead><tbody id="rows"></tbody></table></div>
+<p id="list-message" role="status"></p>
+</section>
+</section>
+<footer>Vigor Broad admin · Catalog records only. Investor accounts, orders and payment operations are not enabled.</footer>
+</div>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.105.0";
+const supabase=createClient("https://tyosxsrkmrgwmefscygc.supabase.co","sb_publishable_f57W8vfsl_9y3lREXuE3TQ_iGbanR4-");
+const loginPanel=document.querySelector("#login-panel"),adminPanel=document.querySelector("#admin-panel");
+const msg=document.querySelector("#message"),createMsg=document.querySelector("#create-message"),rows=document.querySelector("#rows");
+const statuses=["draft","review","published","paused","closed","archived"];
+let sectors=[],developments=[];
+const say=(node,text,isError=false)=>{node.textContent=text;node.id=isError?"error":node===msg?"message":node===createMsg?"create-message":"list-message"};
+const statusOptions=(select,value)=>{select.replaceChildren(...statuses.map(s=>{const o=document.createElement("option");o.value=s;o.textContent=s[0].toUpperCase()+s.slice(1);o.selected=s===value;return o}))};
+async function checkAdmin(){
+ const {data,error}=await supabase.auth.getUser();
+ if(error||!data.user)return false;
+ if(data.user.app_metadata?.role!=="admin"){await supabase.auth.signOut();say(msg,"This account is signed in but is not authorized as a Vigor administrator.",true);return false}
+ document.querySelector("#signed-in").textContent="Signed in as "+(data.user.email||"administrator");
+ loginPanel.hidden=true;adminPanel.hidden=false;return true;
+}
+async function load(){
+ const [s,d]=await Promise.all([
+  supabase.from("investment_sectors").select("id,slug,name").order("display_order"),
+  supabase.from("investment_developments").select("id,slug,name,summary,sector_id,status,province,currency,target_amount,amount_raised,risk_summary").order("created_at",{ascending:false})
+ ]);
+ if(s.error||d.error){say(document.querySelector("#list-message"),s.error?.message||d.error?.message,true);return}
+ sectors=s.data||[];developments=d.data||[];
+ const sectorSelect=document.querySelector("#sector"),filter=document.querySelector("#filter-sector");
+ sectorSelect.replaceChildren(...sectors.map(x=>{const o=document.createElement("option");o.value=x.id;o.textContent=x.name;return o}));
+ filter.replaceChildren(new Option("All sectors",""),...sectors.map(x=>new Option(x.name,x.id)));
+ statusOptions(document.querySelector("#new-status"),"draft");render();
+}
+function render(){
+ const selected=document.querySelector("#filter-sector").value;
+ rows.replaceChildren();
+ const names=new Map(sectors.map(s=>[s.id,s.name]));
+ const visible=developments.filter(d=>!selected||d.sector_id===selected);
+ if(!visible.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=5;td.textContent="No development records match this filter.";tr.append(td);rows.append(tr);return}
+ for(const d of visible){
+  const tr=document.createElement("tr");
+  const title=document.createElement("td");title.textContent=d.name;const small=document.createElement("small");small.textContent=d.slug+" · "+d.summary;title.append(small);
+  const sector=document.createElement("td");sector.textContent=names.get(d.sector_id)||"Unknown";
+  const status=document.createElement("td"),select=document.createElement("select");select.className="status-select";statusOptions(select,d.status);
+  const save=document.createElement("button");save.className="secondary";save.type="button";save.textContent="Save";
+  save.addEventListener("click",async()=>{if(select.value==="published"&&d.status!=="published"&&!confirm("Publishing makes this development visible to the public. Confirm its details and approvals are complete.")){select.value=d.status;return}save.disabled=true;const {error}=await supabase.from("investment_developments").update({status:select.value,updated_at:new Date().toISOString()}).eq("id",d.id);save.disabled=false;if(error){say(document.querySelector("#list-message"),error.message,true);return}d.status=select.value;say(document.querySelector("#list-message"),"Status saved.");render()});
+  status.append(select,document.createTextNode(" "),save);
+  const province=document.createElement("td");province.textContent=d.province||"—";
+  const funding=document.createElement("td");funding.textContent=d.target_amount==null?"Not set":new Intl.NumberFormat("en-ZA",{style:"currency",currency:d.currency||"ZAR"}).format(d.target_amount);
+  tr.append(title,sector,status,province,funding);rows.append(tr);
+ }
+}
+document.querySelector("#filter-sector").addEventListener("change",render);
+document.querySelector("#login-form").addEventListener("submit",async e=>{e.preventDefault();const button=document.querySelector("#login-button");button.disabled=true;say(msg,"Signing in…");const {error}=await supabase.auth.signInWithPassword({email:document.querySelector("#email").value,password:document.querySelector("#password").value});button.disabled=false;if(error){say(msg,error.message,true);return}if(await checkAdmin()){say(msg,"");await load()}});
+document.querySelector("#sign-out").addEventListener("click",async()=>{await supabase.auth.signOut();adminPanel.hidden=true;loginPanel.hidden=false;say(msg,"Signed out.")});
+document.querySelector("#create-form").addEventListener("submit",async e=>{e.preventDefault();const button=document.querySelector("#create-button"),status=document.querySelector("#new-status").value;if(status==="published"&&!confirm("This record will be visible to the public. Confirm its details and approvals are complete."))return;button.disabled=true;const payload={sector_id:document.querySelector("#sector").value,slug:document.querySelector("#slug").value.trim(),name:document.querySelector("#name").value.trim(),summary:document.querySelector("#summary").value.trim(),province:document.querySelector("#province").value.trim()||null,status,risk_summary:document.querySelector("#risk").value.trim()||null};const {error}=await supabase.from("investment_developments").insert(payload);button.disabled=false;if(error){say(createMsg,error.message,true);return}e.target.reset();statusOptions(document.querySelector("#new-status"),"draft");say(createMsg,"Development saved as "+status+".");await load()});
+const {data:{session}}=await supabase.auth.getSession();if(session&&await checkAdmin())await load();
+</script>
+</body>
+</html>
