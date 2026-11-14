@@ -45,6 +45,44 @@
       background: #084298;
     }
   </style>
+<style>
+:root{--ink:#172a2a;--muted:#607472;--paper:#f4f6f1;--line:#dce5dd;--accent:#176b5b;--accent2:#d5ebd2}
+*{box-sizing:border-box}
+body{margin:0!important;padding:0!important;background:var(--paper)!important;color:var(--ink)!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif!important}
+.site-shell{max-width:1160px;margin:auto;padding:24px clamp(18px,4vw,48px) 80px}
+.site-top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0 28px}
+.brand{font-weight:800;letter-spacing:-.04em;font-size:1.15rem;color:var(--ink);text-decoration:none}.brand span{color:var(--accent)}
+.back-link{display:inline-flex!important;align-items:center;gap:8px;margin:0!important;padding:10px 15px!important;background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important;border-radius:999px!important;text-decoration:none!important}
+.page-intro{position:relative;overflow:hidden;padding:clamp(28px,6vw,64px);border-radius:28px;background:linear-gradient(120deg,#123d36,#176b5b 63%,#2c8270);color:#fff;margin-bottom:32px}
+.page-intro:after{content:"";position:absolute;width:280px;height:280px;border:1px solid #ffffff30;border-radius:50%;right:-60px;top:-100px;box-shadow:0 0 0 35px #ffffff0d,0 0 0 70px #ffffff0a}
+.eyebrow{font-size:.75rem;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:#c8e6cb}
+.page-intro h1{font-size:clamp(2rem,5vw,3.6rem)!important;line-height:1.04!important;letter-spacing:-.055em!important;text-align:left!important;color:#fff!important;margin:12px 0!important;max-width:750px}
+.page-intro p{max-width:650px;margin:0;color:#e0eee7;font-size:1.05rem;line-height:1.7}
+.disclosure{border:1px solid #d8e6dc;background:#edf4ed;border-radius:14px;padding:14px 17px;margin:0 0 26px;color:#435c53;font-size:.88rem;line-height:1.55}
+.projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.project{padding:0!important;margin:0!important;background:#fff!important;border:1px solid var(--line)!important;border-radius:20px!important;overflow:hidden;box-shadow:0 4px 18px #183a2a0a!important;transition:transform .2s ease,box-shadow .2s ease}
+.project:hover{transform:translateY(-3px);box-shadow:0 14px 32px #183a2a14!important}
+.project-art{height:190px;position:relative;overflow:hidden;background:#d5ebd2}.project-art svg{display:block;width:100%;height:100%}
+.project-body{padding:22px}
+.project h2,.project h3{font-size:1.22rem!important;line-height:1.25!important;letter-spacing:-.025em;margin:0 0 14px!important;color:var(--ink)!important}
+.project p{color:var(--muted);line-height:1.65;margin:14px 0 0}
+.info{font-size:.88rem;font-weight:550!important;line-height:1.6;color:#47605a}
+.progress-bar{height:8px!important;border-radius:99px!important;background:#e9efea!important;margin:14px 0 8px!important;overflow:hidden}
+.progress{height:100%!important;border-radius:99px;background:linear-gradient(90deg,#176b5b,#72b487)!important}
+.progress-label{font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between}
+.roi{color:var(--accent)!important}
+.home-hero{min-height:350px;display:flex;align-items:center}
+.home-hero h1{max-width:780px!important}
+.home-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.home-tile{display:block;padding:24px;border:1px solid var(--line);background:white;border-radius:18px;text-decoration:none;color:var(--ink);transition:.2s}
+.home-tile:hover{transform:translateY(-3px);border-color:#9dbda8}
+.home-tile b{display:block;font-size:1.08rem;margin:4px 0 8px}
+.home-tile span{color:var(--muted);font-size:.9rem;line-height:1.5}
+footer{position:static!important;width:auto!important;background:transparent!important;color:var(--muted)!important;text-align:left!important;border-top:1px solid var(--line);margin:48px 0 0;padding:22px 0!important;font-size:.84rem}
+@media(max-width:760px){.projects{grid-template-columns:1fr}.home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.project-art{height:170px}}
+@media(max-width:480px){.home-grid{grid-template-columns:1fr}.site-top{padding-bottom:18px}.page-intro{border-radius:20px}.project-body{padding:18px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+</style>
 </head>
 <body>
   <div class="container py-5">
@@ -126,5 +164,56 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(()=> {
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const category=document.title.toLowerCase();
+const kind=category.includes("bootcamp")?"bootcamp":category.includes("education")?"education":category.includes("health")?"healthcare":category.includes("factory")?"factory":category.includes("real estate")?"estate":category.includes("innovation")?"innovation":"investment";
+const art=(i,name)=>{
+const palettes={bootcamp:["#d8ecdc","#16584d","#91c9a0"],education:["#e9e8d2","#355b48","#bdd68a"],healthcare:["#d9e9e5","#176b68","#8bc9bf"],factory:["#e8dfcd","#6b5136","#d2a966"],estate:["#e8e2d5","#375e4c","#a8c798"],innovation:["#e4def0","#514277","#b2a0dd"],investment:["#dcebe2","#176b5b","#8fbea0"]};
+const [bg,fg,hi]=palettes[kind]||palettes.investment;
+const motif=kind==="healthcare"?'<path d="M0 122h120l22-28 27 55 30-75 26 48h125" fill="none" stroke="'+hi+'" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>':
+kind==="education"||kind==="bootcamp"?'<path d="M110 150V91l60-39 60 39v59M139 150v-38h61v38" fill="none" stroke="'+fg+'" stroke-width="10" stroke-linejoin="round"/><path d="M93 91l77-50 77 50" fill="none" stroke="'+hi+'" stroke-width="9" stroke-linecap="round"/>':
+kind==="factory"?'<path d="M98 155V85l48 27V79l48 31V61l73 36v58z" fill="'+fg+'"/><path d="M115 137h22v18h-22zm45 0h22v18h-22zm46 0h22v18h-22z" fill="'+hi+'"/><path d="M233 43v35" stroke="'+hi+'" stroke-width="12"/>':
+kind==="estate"?'<path d="M103 151V95l48-36 48 36v56M198 151V75l43-31 43 31v76" fill="'+fg+'"/><path d="M123 112h18v20h-18zm42 0h18v20h-18zm54-10h15v18h-15zm32 0h15v18h-15z" fill="'+hi+'"/>':
+kind==="innovation"?'<circle cx="170" cy="105" r="47" fill="none" stroke="'+hi+'" stroke-width="12"/><circle cx="170" cy="105" r="20" fill="'+fg+'"/><path d="M170 35v-20m0 180v-20m70-70h20M80 105h20m120-50 15-15m-130 130 15-15m100 0 15 15M110 40l15 15" stroke="'+fg+'" stroke-width="8" stroke-linecap="round"/>':
+'<path d="M100 145l34-34 24 18 46-55 43 37 22-19 30 53z" fill="'+fg+'"/><path d="M100 151h200" stroke="'+hi+'" stroke-width="10" stroke-linecap="round"/>';
+const shift=(i%5)*15-30, rotate=(i%3-1)*3;
+return '<div class="project-art"><svg viewBox="0 0 400 190" role="img" aria-label="'+esc(name)+' illustration" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="190" fill="'+bg+'"/><circle cx="'+(310+shift)+'" cy="43" r="78" fill="'+hi+'" opacity=".3"/><path d="M0 168q96-28 189-10t211 0v32H0z" fill="'+hi+'" opacity=".42"/><g transform="rotate('+rotate+' 200 104)">'+motif+'</g><circle cx="'+(62+(i%4)*14)+'" cy="49" r="4" fill="'+fg+'" opacity=".45"/><circle cx="'+(340-(i%3)*17)+'" cy="130" r="5" fill="'+fg+'" opacity=".3"/></svg><span class="sr-only">'+esc(name)+'</span></div>';
+};
+const main=document.body;
+if(document.querySelector(".project")){
+const cards=[...document.querySelectorAll(".project")];
+cards.forEach((card,i)=>{
+const h=card.querySelector("h2,h3");if(!h)return;
+const name=h.textContent.trim();
+const img=document.createElement("div");img.innerHTML=art(i,name);card.prepend(img.firstElementChild);
+const body=document.createElement("div");body.className="project-body";
+while(card.children.length>1)body.append(card.children[1]);
+card.append(body);
+const progress=card.querySelector(".progress");
+if(progress){const raw=(progress.getAttribute("style")||"").match(/width\s*:\s*([\d.]+)%/i);const value=raw?Math.min(100,Number(raw[1])):0;progress.setAttribute("role","progressbar");progress.setAttribute("aria-valuemin","0");progress.setAttribute("aria-valuemax","100");progress.setAttribute("aria-valuenow",String(value));const label=document.createElement("div");label.className="progress-label";label.innerHTML="<span>Funding progress</span><span>"+value+"%</span>";progress.parentElement.after(label)}
+});
+const wrap=document.createElement("div");wrap.className="site-shell";
+const top=document.createElement("div");top.className="site-top";top.innerHTML='<a class="brand" href="index.html">VIGOR <span>BROAD</span></a><a class="back-link" href="index.html">← All opportunities</a>';
+const h=document.querySelector("h1");const intro=document.createElement("section");intro.className="page-intro";intro.innerHTML='<div class="eyebrow">Investment developments · South Africa</div><h1>'+esc(h?.textContent||"Investment developments")+'</h1><p>Explore community-focused developments and the progress listed for each opportunity.</p>';
+const disclosure=document.createElement("p");disclosure.className="disclosure";disclosure.textContent="Information and figures on this page are illustrative examples from the project catalogue. They are not verified investment offers or guaranteed returns. Confirm all details, risks and regulatory status independently before making an investment decision.";
+const grid=document.createElement("div");grid.className="projects";cards.forEach(c=>grid.append(c));
+wrap.append(top,intro,disclosure,grid);main.innerHTML="";main.append(wrap);
+const foot=document.createElement("footer");foot.textContent="© 2026 Vigor Broad · Illustrative project catalogue";wrap.append(foot);
+}else if(document.querySelector("nav")){
+const nav=document.querySelector("nav"),links=[...nav.querySelectorAll("a")];
+const names=["Bootcamp","Education","Healthcare","Factory","Real Estate","Innovation"];
+const descriptions=["Technology and career training","Learning spaces and education access","Community health and wellness","Local manufacturing and production","Housing and mixed-use developments","Technology and new ventures"];
+const hero=document.createElement("section");hero.className="page-intro home-hero";hero.innerHTML='<div><div class="eyebrow">Investment developments · South Africa</div><h1>Build a stronger future, one development at a time.</h1><p>Explore a catalogue of community-focused projects across education, healthcare, manufacturing, property and technology.</p></div>';
+const grid=document.createElement("div");grid.className="home-grid";
+links.forEach((a,i)=>{a.className="home-tile";a.innerHTML="<b>"+esc(names[i]||a.textContent)+" →</b><span>"+(descriptions[i]||"Explore development opportunities")+"</span>";grid.append(a)});
+const wrap=document.createElement("div");wrap.className="site-shell";const top=document.createElement("div");top.className="site-top";top.innerHTML='<a class="brand" href="index.html">VIGOR <span>BROAD</span></a><span class="eyebrow">A community investment catalogue</span>';
+const disclosure=document.createElement("p");disclosure.className="disclosure";disclosure.textContent="This site is an illustrative project catalogue. Listed investment figures and returns are unverified examples, not offers or guarantees.";
+const about=document.querySelector(".overview");if(about)about.remove();nav.remove();wrap.append(top,hero,disclosure,grid);main.innerHTML="";main.append(wrap);
+const foot=document.createElement("footer");foot.textContent="© 2026 Vigor Broad · Illustrative project catalogue";wrap.append(foot);
+}
+})();
+</script>
 </body>
 </html>
