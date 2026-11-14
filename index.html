@@ -62,6 +62,7 @@ footer{position:static!important;width:auto!important;background:transparent!imp
         <a href="factory.html">Factory</a>
         <a href="real-estate.html">Real Estate</a>
         <a href="innovation.html">Innovation</a>
+        <a href="agriculture.html">Agriculture</a>
     </nav>
     <div class="overview">
         <h2>About Vigor Broad</h2>
@@ -109,9 +110,9 @@ wrap.append(top,intro,disclosure,grid);main.innerHTML="";main.append(wrap);
 const foot=document.createElement("footer");foot.textContent="© 2026 Vigor Broad · Illustrative project catalogue";wrap.append(foot);
 }else if(document.querySelector("nav")){
 const nav=document.querySelector("nav"),links=[...nav.querySelectorAll("a")];
-const names=["Bootcamp","Education","Healthcare","Factory","Real Estate","Innovation"];
-const descriptions=["Technology and career training","Learning spaces and education access","Community health and wellness","Local manufacturing and production","Housing and mixed-use developments","Technology and new ventures"];
-const hero=document.createElement("section");hero.className="page-intro home-hero";hero.innerHTML='<div><div class="eyebrow">Investment developments · South Africa</div><h1>Build a stronger future, one development at a time.</h1><p>Explore a catalogue of community-focused projects across education, healthcare, manufacturing, property and technology.</p></div>';
+const names=["Bootcamp","Education","Healthcare","Factory","Real Estate","Innovation","Agriculture"];
+const descriptions=["Technology and career training","Learning spaces and education access","Community health and wellness","Local manufacturing and production","Housing and mixed-use developments","Technology and new ventures","Sustainable farming and food systems"];
+const hero=document.createElement("section");hero.className="page-intro home-hero";hero.innerHTML='<div><div class="eyebrow">Investment developments · South Africa</div><h1>Build a stronger future, one development at a time.</h1><p>Explore a catalogue of community-focused projects across education, healthcare, manufacturing, property, technology and agriculture.</p></div>';
 const grid=document.createElement("div");grid.className="home-grid";
 links.forEach((a,i)=>{a.className="home-tile";a.innerHTML="<b>"+esc(names[i]||a.textContent)+" →</b><span>"+(descriptions[i]||"Explore development opportunities")+"</span>";grid.append(a)});
 const wrap=document.createElement("div");wrap.className="site-shell";const top=document.createElement("div");top.className="site-top";top.innerHTML='<a class="brand" href="index.html">VIGOR <span>BROAD</span></a><span class="eyebrow">A community investment catalogue</span>';
