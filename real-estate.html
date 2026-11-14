@@ -159,7 +159,7 @@ const progress=card.querySelector(".progress");
 if(progress){const raw=(progress.getAttribute("style")||"").match(/width\s*:\s*([\d.]+)%/i);const value=raw?Math.min(100,Number(raw[1])):0;progress.setAttribute("role","progressbar");progress.setAttribute("aria-valuemin","0");progress.setAttribute("aria-valuemax","100");progress.setAttribute("aria-valuenow",String(value));const label=document.createElement("div");label.className="progress-label";label.innerHTML="<span>Funding progress</span><span>"+value+"%</span>";progress.parentElement.after(label)}
 });
 const wrap=document.createElement("div");wrap.className="site-shell";
-const top=document.createElement("div");top.className="site-top";top.innerHTML='<a class="brand" href="index.html">VIGOR <span>BROAD</span></a><a class="back-link" href="index.html">← All opportunities</a>';
+const top=document.createElement("div");top.className="site-top";top.innerHTML='<a class="brand" href="index.html"><span class="brand-v-trigger" aria-hidden="true">V</span>IGOR <span>BROAD</span></a><a class="back-link" href="index.html">← All opportunities</a>';
 const h=document.querySelector("h1");const intro=document.createElement("section");intro.className="page-intro";intro.innerHTML='<div class="eyebrow">Investment developments · South Africa</div><h1>'+esc(h?.textContent||"Investment developments")+'</h1><p>Explore community-focused developments and the progress listed for each opportunity.</p>';
 const disclosure=document.createElement("p");disclosure.className="disclosure";disclosure.textContent="Information and figures on this page are illustrative examples from the project catalogue. They are not verified investment offers or guaranteed returns. Confirm all details, risks and regulatory status independently before making an investment decision.";
 const grid=document.createElement("div");grid.className="projects";cards.forEach(c=>grid.append(c));
@@ -172,12 +172,13 @@ const descriptions=["Technology and career training","Learning spaces and educat
 const hero=document.createElement("section");hero.className="page-intro home-hero";hero.innerHTML='<div><div class="eyebrow">Investment developments · South Africa</div><h1>Build a stronger future, one development at a time.</h1><p>Explore a catalogue of community-focused projects across education, healthcare, manufacturing, property and technology.</p></div>';
 const grid=document.createElement("div");grid.className="home-grid";
 links.forEach((a,i)=>{a.className="home-tile";a.innerHTML="<b>"+esc(names[i]||a.textContent)+" →</b><span>"+(descriptions[i]||"Explore development opportunities")+"</span>";grid.append(a)});
-const wrap=document.createElement("div");wrap.className="site-shell";const top=document.createElement("div");top.className="site-top";top.innerHTML='<a class="brand" href="index.html">VIGOR <span>BROAD</span></a><span class="eyebrow">A community investment catalogue</span>';
+const wrap=document.createElement("div");wrap.className="site-shell";const top=document.createElement("div");top.className="site-top";top.innerHTML='<a class="brand" href="index.html"><span class="brand-v-trigger" aria-hidden="true">V</span>IGOR <span>BROAD</span></a><span class="eyebrow">A community investment catalogue</span>';
 const disclosure=document.createElement("p");disclosure.className="disclosure";disclosure.textContent="This site is an illustrative project catalogue. Listed investment figures and returns are unverified examples, not offers or guarantees.";
 const about=document.querySelector(".overview");if(about)about.remove();nav.remove();wrap.append(top,hero,disclosure,grid);main.innerHTML="";main.append(wrap);
 const foot=document.createElement("footer");foot.textContent="© 2026 Vigor Broad · Illustrative project catalogue";wrap.append(foot);
 }
 })();
 </script>
+<script src="admin-gate.js" defer></script>
 </body>
 </html>
