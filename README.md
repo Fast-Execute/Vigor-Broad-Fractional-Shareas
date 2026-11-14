@@ -28,12 +28,12 @@ A dynamic solution crafted for the community—streamlining services and fosteri
 #### [fractional share  App](#)
 A modern, intuitive platform for building your asset portfolio
 
-**Progress: 23%** ([details](PROGRESS.md))
+**Progress: 24%** ([details](PROGRESS.md))
 
-New Agriculture catalogue, Supabase-backed published-only listings with search, and authenticated seven-tap admin management with change history are in place. See PROGRESS.md for the remaining release gates.
+New Agriculture catalogue, Supabase-backed published-only listings with search, and authenticated seven-tap admin management with change history are in place. See PROGRESS.md for the remaining release gates; supabase/ADMIN_SETUP.md explains how to grant the first admin account.
 
 ```
-[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 23%
+[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 24%
 ```
 
 <sub>*Proud of: Secure data handling and beautiful, responsive design*</sub>
