@@ -16,7 +16,7 @@ const sectorByFile = {
 };
 const slug = sectorByFile[file];
 const grid = document.querySelector(".projects");
-if (!slug || !grid) {
+if (grid) {\n  const style = document.createElement("style");\n  style.textContent = ".catalog-empty{border:1px solid #dce5dd;background:#fff;border-radius:16px;padding:24px;color:#607472;line-height:1.6}";\n  document.head.append(style);\n}\nif (!slug || !grid) {
   // The homepage has sector navigation, not a development list.
 } else {
   const keepsIllustrativeConcepts = slug === "agriculture";
