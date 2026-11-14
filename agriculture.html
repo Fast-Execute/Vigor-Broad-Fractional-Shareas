@@ -35,7 +35,7 @@ footer{border-top:1px solid var(--line);margin:48px 0 0;padding:22px 0;color:var
 </head>
 <body>
 <div class="site-shell">
-<header class="site-top"><a class="brand" href="index.html">VIGOR <span>BROAD</span></a><a class="back-link" href="index.html">← All opportunities</a></header>
+<header class="site-top"><a class="brand" href="index.html"><span class="brand-v-trigger" aria-hidden="true">V</span>IGOR <span>BROAD</span></a><a class="back-link" href="index.html">← All opportunities</a></header>
 <section class="page-intro"><div class="eyebrow">Investment developments · South Africa</div><h1>Agriculture & food systems</h1><p>Illustrative concepts across resilient farming, local processing and the infrastructure that helps food move from farm to market.</p></section>
 <p class="disclosure">These are illustrative development concepts, not verified projects or investment offers. No funding, returns, locations or operating partners have been confirmed. Verify all details, risks and regulatory status independently.</p>
 <main id="projects" class="projects" aria-live="polite"></main>
@@ -71,5 +71,6 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 const svg=(i,name)=>{const [bg,f,h]=colors[i];const scene=scenes[i].replaceAll("{f}",f).replaceAll("{h}",h);const shift=(i%3)*12;return '<svg viewBox="0 0 400 190" role="img" aria-label="'+esc(name)+' illustration" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="190" fill="'+bg+'"/><circle cx="'+(310-shift)+'" cy="42" r="70" fill="'+h+'" opacity=".3"/><path d="M0 166q97-23 193-8t207 0v32H0z" fill="'+h+'" opacity=".45"/>'+scene+'</svg>'};
 document.querySelector("#projects").innerHTML=projects.map((p,i)=>'<article class="project"><div class="project-art">'+svg(i,p.name)+'</div><div class="project-body"><h2>'+esc(p.name)+'</h2><p>'+esc(p.summary)+'</p><div class="project-meta"><span class="tag">'+esc(p.focus)+'</span><span class="tag">Illustrative concept</span></div></div></article>').join("");
 </script>
+<script src="admin-gate.js" defer></script>
 </body>
 </html>
