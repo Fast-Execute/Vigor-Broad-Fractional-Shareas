@@ -88,3 +88,21 @@ cross join (values
 ) as v(slug, name, summary)
 where s.slug = 'agriculture'
 on conflict (slug) do nothing;
+
+-- Admin writes require an Auth JWT app_metadata claim set by a trusted project owner.
+grant insert, update, delete on public.investment_sectors to authenticated;
+grant insert, update, delete on public.investment_developments to authenticated;
+
+create policy "Administrators manage investment sectors"
+  on public.investment_sectors
+  for all
+  to authenticated
+  using (((select auth.jwt()) -> 'app_metadata' ->> 'role') = 'admin')
+  with check (((select auth.jwt()) -> 'app_metadata' ->> 'role') = 'admin');
+
+create policy "Administrators manage investment developments"
+  on public.investment_developments
+  for all
+  to authenticated
+  using (((select auth.jwt()) -> 'app_metadata' ->> 'role') = 'admin')
+  with check (((select auth.jwt()) -> 'app_metadata' ->> 'role') = 'admin');
