@@ -1,10 +1,10 @@
 # Vigor Broad Fractional Shares — Build Progress
 
-**Overall progress: 22%**  
+**Overall progress: 23%**  
 This is an estimate of the full product scope. **100% means every release gate below is implemented, verified, and ready for production.**
 
 ```
-[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 22%
+[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 23%
 ```
 
 ## Completed
@@ -17,6 +17,7 @@ This is an estimate of the full product scope. **100% means every release gate b
 - [x] Public development search and alphabetical/newest sorting.
 - [x] Seven-tap V logo route to an authenticated catalogue admin page with search, sector/status filters, edit-in-place, and publication readiness checks.
 - [x] Admin-only write policies use the protected Supabase `app_metadata.role = admin` claim.
+- [x] Private audit trail records development inserts, updates, and deletions; admins can read it.
 - [x] Jekyll CI workflow and profile README.
 
 ## Work still required to reach 100%
@@ -32,7 +33,7 @@ This is an estimate of the full product scope. **100% means every release gate b
 - [ ] Designate the first administrator account and set its protected Supabase app metadata claim.
 - [ ] Verify each development, its owner/operator, location, target, funding figures, risks, and supporting documents.
 - [ ] Replace illustrative concepts and figures with approved source data; publish only after review.
-- [ ] Add an audit trail for admin edits and publication decisions.
+
 
 ### 3. Investor accounts and eligibility
 
